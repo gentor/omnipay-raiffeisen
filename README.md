@@ -51,11 +51,12 @@ if ($response->isSuccessful()) {
 ### Complete Purchase
 
 ```php
-$response = $gateway->completePurchase($_POST)->send();
+$response = $gateway->completePurchase()->send();
 
 print_r($response->getData());
 print_r($response->isSuccessful());
 print_r($response->getCode());
+print_r($response->getTransactionReference());
 
 ```
 
@@ -66,8 +67,9 @@ $response = $gateway->refund([
     'TotalAmount' => 100,
     'RefundAmount' => 100,
     'OrderID' => 'OrderID',
-    'RRN' => 'RRN',
+    'Rrn' => 'Rrn',
     'ApprovalCode' => 'ApprovalCode',
+    'PurchaseTime' => 'PurchaseTime',
 ])->send();
 
 print_r($response->getData());
@@ -105,6 +107,7 @@ print_r($response->isSuccessful());
 print_r($response->getCode());
 print_r($response->getMessage());
 print_r($response->getTransactionReference());
+print_r($response->getTransactionStatus());
 print_r($response->getBody());
 
 ```

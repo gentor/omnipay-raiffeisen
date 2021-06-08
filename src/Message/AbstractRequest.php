@@ -40,9 +40,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return [
             'MerchantID' => $this->getParameter('MerchantID'),
             'TerminalID' => $this->getParameter('TerminalID'),
-            'Currency' => $this->getParameter('Currency'),
             'PurchaseTime' => $this->getParameter('PurchaseTime'),
-            'Version' => $this->getParameter('Version'),
+            'Currency' => $this->getParameter('Currency'),
+            'version' => $this->getParameter('version'),
             'locale' => $this->getParameter('locale'),
         ];
     }
@@ -55,6 +55,27 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function getEndpoint()
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+    }
+
+    /**
+     * Get the payment currency code.
+     *
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->getParameter('Currency');
+    }
+
+    /**
+     * Sets the payment currency code.
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setCurrency($value)
+    {
+        return $this->setParameter('Currency', $value);
     }
 
     /**

@@ -6,7 +6,7 @@ namespace Omnipay\Raiffeisen\Message;
 
 use Omnipay\Raiffeisen\Signature;
 
-class RefundRequest extends FetchTransactionRequest
+class RefundRequest extends AbstractRequest
 {
     public function getData()
     {

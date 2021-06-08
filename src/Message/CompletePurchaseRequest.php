@@ -13,12 +13,8 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-//        parse_str($this->httpRequest->getContent(), $data);
-        $data = $this->getParameters();
-
-        unset($data['privateKey']);
-        unset($data['gatewayCertificate']);
-        unset($data['testMode']);
+        parse_str($this->httpRequest->getContent(), $data);
+//        $data = $this->getParameters();
 
         return $data;
     }

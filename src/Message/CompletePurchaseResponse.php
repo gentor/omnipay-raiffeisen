@@ -4,8 +4,6 @@
 namespace Omnipay\Raiffeisen\Message;
 
 
-use Omnipay\Common\Message\AbstractResponse;
-
 class CompletePurchaseResponse extends AbstractResponse
 {
     public function isSuccessful()
@@ -25,7 +23,7 @@ class CompletePurchaseResponse extends AbstractResponse
 
     public function getTransactionReference()
     {
-        return $this->data['XID'] ?? null;
+        return $this->data['ApprovalCode'] ?? null;
     }
 
     public function getMessage()

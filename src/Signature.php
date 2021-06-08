@@ -41,7 +41,7 @@ class Signature
             'TotalAmount',
             'SD',
             'ApprovalCode',
-            'RRN',
+            'Rrn',
             'RefundAmount',
         ],
     ];

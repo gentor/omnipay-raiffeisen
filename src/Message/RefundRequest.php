@@ -12,14 +12,15 @@ class RefundRequest extends FetchTransactionRequest
     {
         $data = parent::getData();
 
-        $this->validate('OrderID', 'TotalAmount', 'ApprovalCode', 'RRN');
+        $this->validate('OrderID', 'TotalAmount', 'ApprovalCode', 'Rrn');
 
         $data = array_merge($data, [
             'TotalAmount' => $this->getParameter('TotalAmount'),
             'RefundAmount' => $this->getParameter('RefundAmount') ?? $this->getParameter('TotalAmount'),
             'OrderID' => $this->getParameter('OrderID'),
             'ApprovalCode' => $this->getParameter('ApprovalCode'),
-            'RRN' => $this->getParameter('RRN'),
+            'Rrn' => $this->getParameter('Rrn'),
+            'SD' => $this->getParameter('SD'),
         ]);
 
         $data['Signature'] = $this->sign($data);
@@ -48,7 +49,8 @@ class RefundRequest extends FetchTransactionRequest
             http_build_query($data)
         );
 
-        $data = $response->getBody()->getContents();
+        $contents = str_replace("\n", '&', rtrim($response->getBody()->getContents(), "\n"));
+        parse_str($contents, $data);
 
         return $this->response = new CompletePurchaseResponse($this, $data);
     }

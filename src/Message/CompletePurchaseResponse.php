@@ -27,4 +27,10 @@ class CompletePurchaseResponse extends AbstractResponse
     {
         return $this->data['XID'] ?? null;
     }
+
+    public function getMessage()
+    {
+        return $this->data['ERROR'] ?? null;
+    }
+
 }

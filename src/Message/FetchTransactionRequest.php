@@ -33,7 +33,8 @@ class FetchTransactionRequest extends AbstractRequest
             http_build_query($data)
         );
 
-        $data = $response->getBody()->getContents();
+        $contents = str_replace("\n", '&', rtrim($response->getBody()->getContents(), "\n"));
+        parse_str($contents, $data);
 
         return $this->response = new CompletePurchaseResponse($this, $data);
     }

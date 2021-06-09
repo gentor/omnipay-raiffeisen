@@ -69,7 +69,6 @@ $response = $gateway->refund([
     'OrderID' => 'OrderID',
     'Rrn' => 'Rrn',
     'ApprovalCode' => 'ApprovalCode',
-    'PurchaseTime' => 'PurchaseTime',
 ])->send();
 
 print_r($response->getData());

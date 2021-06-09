@@ -9,7 +9,7 @@ use Omnipay\Raiffeisen\Signature;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-    protected $liveEndpoint = 'https://secure.upc.ua/rbbg';
+    protected $liveEndpoint = 'https://secure.rbb.bg/rbbg';
     protected $testEndpoint = 'https://ecg.test.upc.ua/rbbg';
 
     /**

@@ -8,7 +8,7 @@
         "omnipay",
         "pay",
         "payment",
-        "borica",
+        "raiffeisen",
         "purchase"
     ],
     "homepage": "https://github.com/gentor/omnipay-raiffeisen",

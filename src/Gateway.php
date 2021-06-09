@@ -65,6 +65,19 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * @param  boolean $value
+     * @return $this
+     */
+    public function setTestMode($value)
+    {
+        if ($value === false) {
+            $this->setGatewayCertificate(file_get_contents(__DIR__ . '/../resources/work-server.key'));
+        }
+
+        return $this->setParameter('testMode', $value);
+    }
+
+    /**
      * @param array $parameters
      * @return Message\PurchaseRequest|AbstractRequest
      */

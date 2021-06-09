@@ -85,7 +85,7 @@ class Signature
         $message = '';
 
         foreach ($macFields as $field) {
-            $message .= ($data[$field] ?? ';') . ';';
+            $message .= ($data[$field] ?? '') . ';';
         }
 
         return $message;

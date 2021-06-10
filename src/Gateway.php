@@ -6,6 +6,7 @@ namespace Omnipay\Raiffeisen;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Raiffeisen\Message\PayByTokenRequest;
 
 /**
  * @method RequestInterface completeAuthorize(array $options = array())
@@ -122,6 +123,15 @@ class Gateway extends AbstractGateway
     public function acceptNotification(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Raiffeisen\Message\NotifyRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return PayByTokenRequest
+     */
+    public function payByToken(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Raiffeisen\Message\PayByTokenRequest', $parameters);
     }
 
     public function __call($name, $arguments)

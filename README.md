@@ -31,7 +31,7 @@ $gateway->setMerchantId($config['merchantId'])
 $response = $gateway->purchase(
     [
         'TotalAmount' => 100,
-        'OrderID' => date('His'),
+        'OrderID' => 'OrderID',
     ]
 )->send();
 
@@ -100,6 +100,25 @@ print_r($response->getTransactionReference());
 
 ```php
 $response = $gateway->acceptNotification()->send();
+
+print_r($response->getData());
+print_r($response->isSuccessful());
+print_r($response->getCode());
+print_r($response->getMessage());
+print_r($response->getTransactionReference());
+print_r($response->getTransactionStatus());
+print_r($response->getBody());
+
+```
+
+### Pay By Token
+
+```php
+$response = $gateway->payByToken([
+    'TotalAmount' => 100,
+    'OrderID' => 'OrderID',
+    'UPCToken' => 'UPCToken',
+])->send();
 
 print_r($response->getData());
 print_r($response->isSuccessful());

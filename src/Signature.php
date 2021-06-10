@@ -91,6 +91,38 @@ class Signature
         return $message;
     }
 
+    public static function createJWS(array $data, $privateKey)
+    {
+        $header = base64_encode(json_encode(['alg' => 'RS512']));
+        $payload = base64_encode(json_encode($data));
+        $message = "$header.$payload";
+
+        $privateKeyId = openssl_get_privatekey($privateKey);
+        openssl_sign($message, $binarySignature, $privateKeyId, OPENSSL_ALGO_SHA512);
+        openssl_free_key($privateKeyId);
+
+        $signature = base64_encode($binarySignature);
+
+        return [
+            'header' => $header,
+            'payload' => $payload,
+            'signature' => $signature,
+        ];
+    }
+
+    public static function verifyJWS(array $data, $certificate)
+    {
+        if (empty($data['header']) || empty($data['payload']) || empty($data['signature'])) {
+            return -1;
+        }
+
+        $message = "{$data['header']}.{$data['payload']}";
+        $signature = base64_decode($data['signature']);
+        $publicKeyId = openssl_get_publickey($certificate);
+
+        return openssl_verify($message, $signature, $publicKeyId, OPENSSL_ALGO_SHA512);
+    }
+
     /**
      * Generate 2048 bit RSA private and public keys
      *

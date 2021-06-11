@@ -4,7 +4,9 @@
 namespace Omnipay\Raiffeisen\Message;
 
 
-class CompletePurchaseResponse extends AbstractResponse
+use Omnipay\Common\Message\NotificationInterface;
+
+class CompletePurchaseResponse extends AbstractResponse implements NotificationInterface
 {
     public function isSuccessful()
     {
@@ -24,6 +26,19 @@ class CompletePurchaseResponse extends AbstractResponse
     public function getTransactionReference()
     {
         return $this->data['ApprovalCode'] ?? null;
+    }
+
+    public function getTransactionStatus()
+    {
+        if ($this->isSuccessful()) {
+            return self::STATUS_COMPLETED;
+        }
+
+        if ($this->getCode() === '999') {
+            return self::STATUS_PENDING;
+        }
+
+        return self::STATUS_FAILED;
     }
 
     public function getMessage()

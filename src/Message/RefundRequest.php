@@ -36,6 +36,16 @@ class RefundRequest extends AbstractRequest
     }
 
     /**
+     * Send the request
+     *
+     * @return CompletePurchaseResponse
+     */
+    public function send()
+    {
+        return parent::send();
+    }
+
+    /**
      * @param mixed $data
      */
     public function sendData($data)

@@ -22,6 +22,10 @@ class PurchaseRequest extends AbstractRequest
             'SD' => $this->getParameter('SD'),
         ]);
 
+        if ($this->getParameter('Recurrent')) {
+            $data['Recurrent'] = 'true';
+        }
+
         $data['Signature'] = $this->sign($data);
 
         return $data;

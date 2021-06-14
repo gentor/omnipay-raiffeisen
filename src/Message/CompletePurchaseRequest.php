@@ -20,6 +20,16 @@ class CompletePurchaseRequest extends AbstractRequest
     }
 
     /**
+     * Send the request
+     *
+     * @return CompletePurchaseResponse
+     */
+    public function send()
+    {
+        return parent::send();
+    }
+
+    /**
      * @param mixed $data
      * @return CompletePurchaseResponse
      * @throws InvalidRequestException

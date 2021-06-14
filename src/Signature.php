@@ -73,6 +73,10 @@ class Signature
         }
 
         $message = self::getMacSourceValue($data, 'notify');
+        if (!empty($data['UPCToken']) && !empty($data['UPCTokenExp'])) {
+            $message .= $data['UPCToken'] . ',' . $data['UPCTokenExp'] . ';';
+        }
+
         $signature = base64_decode($data['Signature']);
         $publicKeyId = openssl_get_publickey($certificate);
 
@@ -86,6 +90,10 @@ class Signature
 
         foreach ($macFields as $field) {
             $message .= ($data[$field] ?? '') . ';';
+        }
+
+        if ($dataType == 'purchase' && !empty($data['Recurrent'])) {
+            $message .= 'true;';
         }
 
         return $message;

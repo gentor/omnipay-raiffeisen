@@ -24,6 +24,16 @@ class NotifyRequest extends AbstractRequest
     }
 
     /**
+     * Send the request
+     *
+     * @return NotifyResponse
+     */
+    public function send()
+    {
+        return parent::send();
+    }
+
+    /**
      * @param mixed $data
      * @return NotifyResponse
      * @throws InvalidRequestException

@@ -19,6 +19,7 @@ class PayByTokenRequest extends AbstractRequest
             'TotalAmount' => $this->getParameter('TotalAmount'),
             'OrderID' => $this->getParameter('OrderID'),
             'UPCToken' => $this->getParameter('UPCToken'),
+            'Recurrent' => $this->getParameter('Recurrent'),
         ]);
 
         if ($this->getParameter('cvc')) {
@@ -39,6 +40,7 @@ class PayByTokenRequest extends AbstractRequest
             'Currency',
             'PurchaseTime',
             'PurchaseDesc',
+            'Recurrent',
             'cvc',
         ]));
 

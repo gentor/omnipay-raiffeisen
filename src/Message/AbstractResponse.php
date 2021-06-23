@@ -7,6 +7,7 @@ namespace Omnipay\Raiffeisen\Message;
 abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 {
     const CODES = [
+        '-' => '',
         '000' => 'Approved',
         '101' => 'Invalid card parameters',
         '105' => 'Not approved by emitent',
@@ -37,7 +38,7 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
         '432' => 'Card is in stop list',
         '433' => 'The number of transactions has exceeded the limit',
         '434' => 'The merchant does not accept cards from the country',
-        '435' => 'CLient IP address is on stop list',
+        '435' => 'Client IP address is on stop list',
         '436' => 'The sum of amount transactions has exceeded the limit',
         '437' => 'The limit of card number inputs has been exceeded',
         '438' => 'Unacceptable currency code',
@@ -48,12 +49,14 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
         '450' => 'Recurrent payments are prohibited',
         '451' => 'MPI service not enabled',
         '452' => 'Card-to-Card Payment service not enabled',
+        '454' => 'The gateway is prohibited from using Ref3',
+        '455' => 'Refund request denied by gateway',
         '460' => 'Token service not enabled',
         '501' => 'Canceled by user',
         '502' => 'The web session is expired',
         '503' => 'Transaction was canceled by merchant',
         '504' => 'Transaction was canceled by gateway with reversal',
-        '505' => 'Invalid sequense of operations',
+        '505' => 'Invalid sequence of operations',
         '506' => 'Preauthorized transaction is expired',
         '507' => 'Preauthorized transaction already processed with payment',
         '508' => 'Invalid amount to pay a preauthorized transaction',
@@ -66,7 +69,6 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
         '902' => 'Cannot process transaction',
         '909' => 'Cannot process transaction',
         '999' => 'Transaction in progress...',
-        '-' => '',
     ];
 
     /**
@@ -82,7 +84,7 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
         unset($this->data['gatewayCertificate']);
         unset($this->data['testMode']);
 
-        $this->data['TranMessage'] = self::CODES[$this->data['TranCode'] ?? '-'];
+        $this->data['TranMessage'] = self::CODES[$this->data['TranCode'] ?? '-'] ?? '';
 
         return $this->data;
     }

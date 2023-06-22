@@ -20,6 +20,7 @@ class PurchaseRequest extends AbstractRequest
             'OrderID' => $this->getParameter('OrderID'),
             'PurchaseDesc' => $this->getParameter('PurchaseDesc'),
             'SD' => $this->getParameter('SD'),
+            'Delay' => $this->getParameter('Delay') ?? 0,
         ]);
 
         if ($this->getParameter('Recurrent')) {

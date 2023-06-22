@@ -89,7 +89,11 @@ class Signature
         $message = '';
 
         foreach ($macFields as $field) {
-            $message .= ($data[$field] ?? '') . ';';
+            if ($field == 'OrderID' && isset($data['Delay'])) {
+                $message .= ($data[$field] ?? '') . ',' . $data['Delay'] . ';';
+            } else {
+                $message .= ($data[$field] ?? '') . ';';
+            }
         }
 
         if ($dataType == 'purchase' && !empty($data['Recurrent'])) {

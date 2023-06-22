@@ -36,7 +36,14 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $this->validateGatewaySignature($data);
+        $data['Delay'] = 0;
+        
+        try {
+            $this->validateGatewaySignature($data);
+        } catch (InvalidRequestException $e) {
+            $data['Delay'] = 1;
+            $this->validateGatewaySignature($data);
+        }
 
         return $this->response = new CompletePurchaseResponse($this, $data);
     }

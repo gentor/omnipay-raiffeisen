@@ -11,7 +11,6 @@ use Omnipay\Raiffeisen\Message\PayByTokenRequest;
 
 /**
  * @method RequestInterface completeAuthorize(array $options = array())
- * @method RequestInterface capture(array $options = array())
  * @method RequestInterface void(array $options = array())
  * @method RequestInterface createCard(array $options = array())
  * @method RequestInterface updateCard(array $options = array())
@@ -104,6 +103,15 @@ class Gateway extends AbstractGateway
     public function fetchTransaction(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Raiffeisen\Message\FetchTransactionRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return Message\CaptureRequest|AbstractRequest
+     */
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Raiffeisen\Message\CaptureRequest', $parameters);
     }
 
     /**

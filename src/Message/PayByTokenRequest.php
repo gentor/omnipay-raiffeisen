@@ -16,14 +16,18 @@ class PayByTokenRequest extends AbstractRequest
         $this->validate('OrderID', 'TotalAmount', 'UPCToken');
 
         $data = array_merge($data, [
-            'TotalAmount' => $this->getParameter('TotalAmount'),
             'OrderID' => $this->getParameter('OrderID'),
+            'TotalAmount' => $this->getParameter('TotalAmount'),
             'UPCToken' => $this->getParameter('UPCToken'),
-            'Recurrent' => $this->getParameter('Recurrent'),
+            'PurchaseDesc' => $this->getParameter('PurchaseDesc'),
         ]);
 
-        if ($this->getParameter('cvc')) {
-            $data['cvc'] = $this->getParameter('cvc');
+        if ($this->getParameter('Recurrent')) {
+            $data['Recurrent'] = $this->getParameter('Recurrent');
+        }
+
+        if ($this->getParameter('CVNum')) {
+            $data['CVNum'] = $this->getParameter('CVNum');
         }
 
         return $data;
@@ -31,20 +35,7 @@ class PayByTokenRequest extends AbstractRequest
 
     public function getSignedData()
     {
-        $data = array_intersect_key($this->getData(), array_flip([
-            'MerchantID',
-            'TerminalID',
-            'OrderID',
-            'UPCToken',
-            'TotalAmount',
-            'Currency',
-            'PurchaseTime',
-            'PurchaseDesc',
-            'Recurrent',
-            'cvc',
-        ]));
-
-        return Signature::createJWS($data, $this->getPrivateKey());
+        return Signature::createJWS($this->getData(), $this->getPrivateKey());
     }
 
     /**

@@ -59,8 +59,9 @@ class RefundRequest extends AbstractRequest
             http_build_query($data)
         );
 
-        $contents = str_replace("\n", '&', rtrim($response->getBody()->getContents(), "\n"));
-        parse_str($contents, $data);
+        $content = strip_tags($response->getBody()->getContents());
+        $content = str_replace("\n", '&', rtrim($content, "\n"));
+        parse_str($content, $data);
 
         return $this->response = new CompletePurchaseResponse($this, $data);
     }

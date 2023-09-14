@@ -43,7 +43,7 @@ class CompletePurchaseResponse extends AbstractResponse implements NotificationI
 
     public function getMessage()
     {
-        return $this->data['ERROR'] ?? null;
+        return $this->data['ERROR'] ?? $this->data['TranMessage'] ?? null;
     }
 
 }

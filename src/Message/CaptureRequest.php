@@ -31,7 +31,7 @@ class CaptureRequest extends AbstractRequest
     {
         $message = Signature::getMacSourceValue($data, 'refund');
 
-        return Signature::create($message, $this->getPrivateKey());
+        return Signature::create($message, $this->getPrivateKey(), $this->getParameter('algorithm'));
     }
 
     /**

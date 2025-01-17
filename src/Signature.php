@@ -8,8 +8,6 @@ use DateTime;
 
 class Signature
 {
-    const ALGO = OPENSSL_ALGO_SHA1;
-
     public static $macFields = [
         'purchase' => [
             'MerchantID',
@@ -56,17 +54,17 @@ class Signature
         'organizationalUnitName',
     ];
 
-    public static function create($message, $privateKey)
+    public static function create($message, $privateKey, $algorithm = OPENSSL_ALGO_SHA512)
     {
         $privateKeyId = openssl_get_privatekey($privateKey);
 
-        openssl_sign($message, $signature, $privateKeyId, self::ALGO);
+        openssl_sign($message, $signature, $privateKeyId, $algorithm);
         openssl_free_key($privateKeyId);
 
         return base64_encode($signature);
     }
 
-    public static function verify(array $data, $certificate)
+    public static function verify(array $data, $certificate, $algorithm = OPENSSL_ALGO_SHA512)
     {
         if (empty($data['Signature'])) {
             return -1;
@@ -80,7 +78,7 @@ class Signature
         $signature = base64_decode($data['Signature']);
         $publicKeyId = openssl_get_publickey($certificate);
 
-        return openssl_verify($message, $signature, $publicKeyId, self::ALGO);
+        return openssl_verify($message, $signature, $publicKeyId, $algorithm);
     }
 
     public static function getMacSourceValue(array $data, $dataType = 'purchase')
@@ -142,17 +140,21 @@ class Signature
      */
     public static function generateKeyPair()
     {
-        $key = openssl_pkey_new(array(
-            "private_key_bits" => 1024,
+        $config = [
+            "digest_alg" => "sha512",
+            "private_key_bits" => 2048,
             "private_key_type" => OPENSSL_KEYTYPE_RSA,
-        ));
+            "encrypt_key" => false
+        ];
+
+        $key = openssl_pkey_new($config);
 
         $details = openssl_pkey_get_details($key);
         openssl_pkey_export($key, $privateKey);
 
         return [
             'bits' => $details['bits'],
-            'type' => 'RSA-SHA1',
+            'type' => 'RSA-SHA512',
             'public' => $details['key'],
             'private' => $privateKey,
         ];
@@ -167,6 +169,13 @@ class Signature
      */
     public static function generateCSR($privateKey, array $subject = [])
     {
+        $config = [
+            "digest_alg" => "sha512",
+            "private_key_bits" => 2048,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
+            "encrypt_key" => false
+        ];
+
         $dn = [
             'commonName' => 'Omnipay Raiffeisen',
             'organizationName' => 'Omnipay Raiffeisen',
@@ -183,7 +192,7 @@ class Signature
         }
 
         $privkey = openssl_get_privatekey($privateKey);
-        $resource = openssl_csr_new($dn, $privkey, ['digest_alg' => self::ALGO]);
+        $resource = openssl_csr_new($dn, $privkey, $config);
 
         openssl_csr_export($resource, $csr);
 
@@ -206,7 +215,15 @@ class Signature
      */
     public static function signCSR($privateKey, $csr, int $days = 365, $ca = null)
     {
-        $x509 = openssl_csr_sign($csr, $ca, $privateKey, $days, ['digest_alg' => self::ALGO]);
+        $config = [
+            "digest_alg" => "sha512",
+            "private_key_bits" => 2048,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
+            "encrypt_key" => false
+        ];
+
+        $privkey = openssl_get_privatekey($privateKey);
+        $x509 = openssl_csr_sign($csr, $ca, $privkey, $days, $config);
 
         openssl_x509_export($x509, $crt);
 
@@ -228,7 +245,7 @@ class Signature
             'subject' => $subject,
             'key' => [
                 'bits' => $publicKey['bits'],
-                'type' => $publicKey['type'] === 0 ? 'RSA-SHA1' : $publicKey['type'],
+                'type' => $publicKey['type'] === 0 ? 'RSA-SHA512' : $publicKey['type'],
                 'public' => $publicKey['key'],
             ],
         ];

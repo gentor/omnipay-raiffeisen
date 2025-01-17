@@ -36,7 +36,7 @@ class PurchaseRequest extends AbstractRequest
     {
         $message = Signature::getMacSourceValue($data);
 
-        return Signature::create($message, $this->getPrivateKey());
+        return Signature::create($message, $this->getPrivateKey(), $this->getParameter('algorithm'));
     }
 
     /**

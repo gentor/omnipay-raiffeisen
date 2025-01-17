@@ -30,9 +30,15 @@ class Gateway extends AbstractGateway
         return [
             'Currency' => 975, // BGN
             'version' => 1,
+            'algorithm' => OPENSSL_ALGO_SHA512,
             'testMode' => true,
             'gatewayCertificate' => file_get_contents(__DIR__ . '/../resources/test-server.cert'),
         ];
+    }
+
+    public function setAlgorithm($value)
+    {
+        return $this->setParameter('algorithm', $value);
     }
 
     public function setMerchantId($value)

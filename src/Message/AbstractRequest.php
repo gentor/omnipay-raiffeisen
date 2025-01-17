@@ -99,7 +99,12 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             return;
         }
 
-        $valid = Signature::verify($data, $this->getParameter('gatewayCertificate'));
+        $valid = Signature::verify(
+            $data, 
+            $this->getParameter('gatewayCertificate'), 
+            $this->getParameter('algorithm')
+        );
+        
         if ($valid < 1) {
             throw new InvalidRequestException("Invalid gateway signature: " . $data['Signature']);
         }
